@@ -1,0 +1,93 @@
+<html>
+	<head>
+	<script>
+		var x; //Interval Variable.
+		
+		function startTimer() {
+			alert( document.getElementById("demo") )
+
+			// Set the date we're counting down to
+			document.getElementById("demo").innerHTML = "2:30";
+			timerButton = document.getElementById('timerControl');
+			timerButton.setAttribute('onclick','abortGame()');
+
+			var startTime = new Date().getTime();
+			var endTime = new Date(startTime + 150*1000) // Set the End time to Start time plus length of game(165 Seconds)
+			var countDownDate = new Date("Jan 5, 2024 15:37:25").getTime();
+			playAudio('./static_audio_start.wav');
+			
+			// Update the count down every 1 second
+			x = setInterval(function() {
+		
+				// Get today's date and time
+				var now = new Date().getTime();
+		
+				// Find the distance between now and the count down date
+				var distance = endTime - now;
+		
+				//Time calculations for days, hours, minutes and seconds
+				var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+				var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+				var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+				var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+		
+				// Display the result in the element with id="demo"
+				if (seconds < 10) {
+					document.getElementById("demo").innerHTML = minutes + ":0" + seconds;
+				}
+				else {
+					document.getElementById("demo").innerHTML = minutes + ":" + seconds;
+				}
+		
+				//console.log(distance);
+				//Play End of Autonomous Sound
+				if (distance < 136000 && distance >= 135000){  //Time to play end of game sound in milliseconds from end of game.  Keep a one second gap between these variables.)
+					console.log("Start Autonomous");
+					playAudio('./static_audio_resume.wav');
+				}
+				if (distance < 31000 && distance >= 30000){
+					console.log("Start End Game");
+					playAudio('./static_audio_warning.wav');
+				}
+				
+				// If the count down is finished, write some text
+				if (distance < 0) {
+					clearInterval(x);
+					document.getElementById("demo").innerHTML = "0:00";
+					console.log("End Game");
+					playAudio('./static_audio_end.wav');
+					timerButton = document.getElementById('timerControl');
+					timerButton.setAttribute('onclick','startTimer()');
+				}
+			}, 1000);
+		}
+		
+		function playAudio(url){
+			new Audio(url).play();
+		}
+		
+		function abortGame() {
+			clearInterval(x);;
+			timerButton = document.getElementById('timerControl');
+			timerButton.setAttribute('onclick','startTimer()');
+			playAudio('./static_audio_abort.wav');
+		}
+	</script>
+</head>
+
+<body style="background: #ed1c24;">
+	<div style="display:flex;">
+		<div style="width: 50%" id="timerControl" onclick="startTimer()">
+			<img style="width: 600px" src="Sussex Scrimmage White_Black 01_22_edite.webp"/>
+		</div>
+
+		<div style="width:50%">
+			<p style="font-size: 350px;font-family: Montserrat;margin: auto;align-self: center;" id="demo">2:30</p>
+		</div>
+	</div>
+
+	<div style="margin-top: 30px;">
+		<iframe src="https://frcqueue.com/event/2023ss" style="width:100%;height: 50vh;"/>
+	</div>
+</body>
+</html>
