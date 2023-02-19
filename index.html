@@ -4,8 +4,6 @@
 		var x; //Interval Variable.
 		
 		function startTimer() {
-			alert( document.getElementById("demo") )
-
 			// Set the date we're counting down to
 			document.getElementById("demo").innerHTML = "2:30";
 			timerButton = document.getElementById('timerControl');
@@ -54,7 +52,7 @@
 				if (distance < 0) {
 					clearInterval(x);
 					document.getElementById("demo").innerHTML = "0:00";
-					console.log("End Game");
+
 					playAudio('./static_audio_end.wav');
 					timerButton = document.getElementById('timerControl');
 					timerButton.setAttribute('onclick','startTimer()');
@@ -72,6 +70,10 @@
 			timerButton.setAttribute('onclick','startTimer()');
 			playAudio('./static_audio_abort.wav');
 		}
+
+		function resetTimer() {
+			document.getElementById("demo").innerHTML = "2:30";
+		}
 	</script>
 </head>
 
@@ -81,7 +83,7 @@
 			<img style="width: 600px" src="Sussex Scrimmage White_Black 01_22_edite.webp"/>
 		</div>
 
-		<div style="width:50%">
+		<div style="width:50%" onclick="resetTimer()">
 			<p style="font-size: 350px;font-family: Montserrat;margin: auto;align-self: center;" id="demo">2:30</p>
 		</div>
 	</div>
